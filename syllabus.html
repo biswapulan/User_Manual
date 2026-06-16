@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workspace Manual - bputnotes.in</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      /* Force sharp, geometric edges everywhere */
+      border-radius: 0px !important; 
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f1f5f9;
+      color: #0f172a;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOP FIXED NAVIGATION BAR */
+    .top-nav {
+      background: #ffffff;
+      border-bottom: 2px solid #cbd5e1;
+      width: 100%;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-subtitle {
+      font-size: 0.85rem;
+      color: #64748b;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-left: 2px solid #e2e8f0;
+      padding-left: 12px;
+    }
+
+    /* MAIN SYSTEM WORKSPACE WORK AREA */
+    .workspace-layout {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    /* UPPER PORTION: TEXT DOCUMENTATION DATA */
+    .data-display-panel {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .step-indicator {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #2563eb;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .step-heading {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+
+    .step-body-text {
+      font-size: 0.95rem;
+      color: #334155;
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* MIDDLE PORTION: CONTROLLED SMARTPHONE PORTRAIT CASING VIEWPORT */
+    .phone-viewport-container {
+      width: 100%;
+      max-width: 340px; /* Safe mobile standard base width standard */
+      height: 520px;    /* Constrained dynamic vertical room box */
+      background: #1e293b; /* Sleek dark background so images are isolated properly */
+      border: 3px solid #0f172a;
+      box-shadow: 6px 6px 0px #cbd5e1;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .mobile-screenshot-render {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* FIX: Prevents cutting off. Fits entire image cleanly without crop */
+      display: block;
+    }
+
+    /* EMPTY STATE PLACEHOLDER */
+    .empty-image-placeholder {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      text-align: center;
+      padding: 20px;
+      font-family: monospace;
+    }
+
+    /* IMAGE OVERLAY SLIDER BUTTONS */
+    .img-slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #ffffff;
+      color: #0f172a;
+      border: 2px solid #0f172a;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.1rem;
+      cursor: pointer;
+      z-index: 20;
+      box-shadow: 2px 2px 0px #0f172a;
+      transition: all 0.1s ease;
+    }
+
+    .img-slider-btn:hover:not(:disabled) {
+      background: #0f172a;
+      color: #ffffff;
+    }
+
+    .img-slider-btn:disabled {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .img-slider-prev { left: 10px; }
+    .img-slider-next { right: 10px; }
+
+    /* IMAGE COUNTER BADGE */
+    .image-counter-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 4px 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: monospace;
+      border: 1px solid #ffffff;
+      z-index: 20;
+    }
+
+    /* MULTI-IMAGE INTERNAL DOT NAVIGATION CONTROLS */
+    .image-dots-container {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      background: rgba(15, 23, 42, 0.85);
+      padding: 6px 12px;
+      border: 1px solid #ffffff;
+      z-index: 10;
+    }
+
+    .image-dot {
+      width: 10px;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+    }
+
+    .image-dot.active {
+      background: #2563eb;
+      border-color: #ffffff;
+      transform: scale(1.1);
+    }
+
+    /* BOTTOM PORTION: ORIGINAL MANUAL CONTROL PLATFORM PANEL */
+    .bottom-control-bar {
+      width: 100%;
+      max-width: 480px;
+      background: #ffffff;
+      border: 2px solid #0f172a;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .system-status-counter {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #475569;
+      font-family: monospace;
+    }
+
+    /* SYSTEM TACTILE INTERACTION KEYBOARD TYPE BUTTONS */
+    .nav-action-btn {
+      padding: 8px 18px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border: 2px solid #0f172a;
+      background: #ffffff;
+      color: #0f172a;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-action-btn:hover:not(:disabled) {
+      background: #0f172a;
+      color: #ffffff;
+    }
+
+    .nav-action-btn:disabled {
+      border-color: #cbd5e1;
+      color: #94a3b8;
+      cursor: not-allowed;
+      background: #f8fafc;
+    }
+
+    @media(max-width: 640px) {
+      .top-nav { padding: 0 16px; }
+      .nav-subtitle { display: none; }
+      .phone-viewport-container { height: 420px; max-width: 280px; }
+      .step-heading { font-size: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="top-nav">
+    <div class="nav-brand">
+      <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
+        <rect width="64" height="64" fill="#2563eb"/>
+        <path d="M18 46V18h15c3.5 0 6.2.9 8 2.7 1.8 1.7 2.7 3.8 2.7 6.3 0 1.7-.5 3.2-1.5 4.4-.9 1.1-2 1.8-3.2 2.2 1.7.3 3 1.2 4 2.5 1 1.3 1.5 2.9 1.5 4.8 0 2.9-1 5.1-3 6.7-2 1.6-4.8 2.4-8.5 2.4H18zm6.2-17h8.3c1.9 0 3.3-.5 4.2-1.3.9-.8 1.4-1.9 1.4-3.2 0-1.4-.5-2.5-1.4-3.2-.9-.8-2.3-1.2-4.1-1.2h-8.4v8.9zm0 12h9.2c2 0 3.5-.5 4.5-1.5 1-.9 1.5-2.2 1.5-3.7s-.5-2.8-1.5-3.7c-1-1-2.5-1.4-4.5-1.4h-9.2v10.3z" fill="white"/>
+      </svg>
+      <span class="nav-title">bputnotes.in</span>
+      <span class="nav-subtitle">Workspace Manual</span>
+    </div>
+    
+    <a href="index.html" class="text-xs font-bold uppercase tracking-wider text-gray-500 hover:text-black">
+      Exit Manual
+    </a>
+  </nav>
+
+  <main class="workspace-layout">
+    
+    <section class="data-display-panel">
+      <div id="step-indicator" class="step-indicator">STEP 1</div>
+      <h1 id="step-heading" class="step-heading">Loading Engine...</h1>
+      <p id="step-body-text" class="step-body-text">Please authorize execution.</p>
+    </section>
+
+    <div class="phone-viewport-container">
+      <button id="imgPrevBtn" class="img-slider-btn img-slider-prev">&larr;</button>
+      <button id="imgNextBtn" class="img-slider-btn img-slider-next">&rarr;</button>
+      
+      <div id="imgBadge" class="image-counter-badge hidden">IMAGE: 1 / 2</div>
+
+      <img id="step-image" src="" alt="Mobile Screen Interface Viewport Capture" class="mobile-screenshot-render hidden">
+      <div id="image-placeholder" class="empty-image-placeholder hidden">No Image Available For This Stage</div>
+      
+      <div id="image-dots-container" class="image-dots-container hidden"></div>
+    </div>
+
+    <footer class="bottom-control-bar">
+      <button id="prevBtn" class="nav-action-btn">
+        BACK
+      </button>
+      
+      <span id="status-counter" class="system-status-counter">
+        PAGE: 01 / 04
+      </span>
+      
+      <button id="nextBtn" class="nav-action-btn">
+        NEXT
+      </button>
+    </footer>
+
+  </main>
+
+  <script>
+    const steps = [
+      {
+        stage: "STEP 1", 
+        title: "Visit the provided link", 
+        desc: "Navigate to https://www.bput.ac.in/syllabus.html, where all college program syllabus items are fully listed.", 
+        images: ["assets/syllabus/syllabus-1.jpeg"]
+      },
+      {
+        stage: "STEP 2", 
+        title: "Get the syllabus link", 
+        desc: "Click on the specific semester, isolate the targeted structural academic department, pull open the subject document container, and extract the layout resource URL.", 
+        images: ["assets/syllabus/syllabus-2.jpeg", "assets/syllabus/syllabus-3.jpeg", "assets/syllabus/syllabus-4.jpeg", "assets/syllabus/syllabus-5.jpeg","assets/syllabus/syllabus-6.jpeg","assets/syllabus/syllabus-7.jpeg"]
+      },
+      {
+        stage: "STEP 3", 
+        title: "If you can't find the Syllabus", 
+        desc: "Reach out to immediate peers or department networks. If search parameter fields still return null indexes, directly alert assignments operations by filing a support ticket inside the intern dashboard.", 
+        images: [] // Example of empty asset matrix state tracking validation
+      },
+      {
+        stage: "STEP 4", 
+        title: "The End", 
+        desc: "Once verified, map the extracted asset parameters straight into your localized CMS entry target window to complete operations checklist updates.", 
+        images: []
+      }
+    ];
+    
+    let currentStep = 0;
+    let currentImageIndex = 0;
+
+    const stepIndicator = document.getElementById("step-indicator");
+    const stepHeading = document.getElementById("step-heading");
+    const stepBodyText = document.getElementById("step-body-text");
+    const stepImage = document.getElementById("step-image");
+    const imagePlaceholder = document.getElementById("image-placeholder");
+    const dotsContainer = document.getElementById("image-dots-container");
+    const statusCounter = document.getElementById("status-counter");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    const imgPrevBtn = document.getElementById("imgPrevBtn");
+    const imgNextBtn = document.getElementById("imgNextBtn");
+    const imgBadge = document.getElementById("imgBadge");
+
+    function renderActiveStep() {
+      const activeData = steps[currentStep];
+      
+      stepIndicator.textContent = `INDEX STATUS: ${activeData.stage}`;
+      stepHeading.textContent = activeData.title;
+      stepBodyText.textContent = activeData.desc;
+      
+      currentImageIndex = 0;
+      updateImageDisplay();
+      
+      const displayCurrent = String(currentStep + 1).padStart(2, '0');
+      const displayTotal = String(steps.length).padStart(2, '0');
+      statusCounter.textContent = `PAGE: ${displayCurrent} / ${displayTotal}`;
+      
+      prevBtn.disabled = currentStep === 0;
+      nextBtn.disabled = currentStep === steps.length - 1;
+    }
+
+    function updateImageDisplay() {
+      const activeData = steps[currentStep];
+      const totalImages = activeData.images ? activeData.images.length : 0;
+
+      // Reset UI visibility states cleanly
+      stepImage.classList.add("hidden");
+      imagePlaceholder.classList.add("hidden");
+      dotsContainer.classList.add("hidden");
+      imgBadge.classList.add("hidden");
+      imgPrevBtn.disabled = true;
+      imgNextBtn.disabled = true;
+
+      // Handle completely missing or empty image tracking lists gracefully
+      if (totalImages === 0 || !activeData.images[currentImageIndex] || activeData.images[currentImageIndex].trim() === "") {
+        stepImage.src = "";
+        imagePlaceholder.classList.remove("hidden");
+        return;
+      }
+
+      // Safe state confirmed, render current screen file URL reference natively
+      stepImage.src = activeData.images[currentImageIndex];
+      stepImage.classList.remove("hidden");
+      
+      if (totalImages > 1) {
+        dotsContainer.classList.remove("hidden");
+        imgBadge.classList.remove("hidden");
+        
+        imgBadge.textContent = `IMAGE: ${currentImageIndex + 1} / ${totalImages}`;
+        
+        imgPrevBtn.disabled = currentImageIndex === 0;
+        imgNextBtn.disabled = currentImageIndex === totalImages - 1;
+
+        dotsContainer.innerHTML = ""; 
+        activeData.images.forEach((_, idx) => {
+          const dot = document.createElement("div");
+          dot.classList.add("image-dot");
+          if (idx === currentImageIndex) {
+            dot.classList.add("active");
+          }
+          
+          dot.addEventListener("click", () => {
+            currentImageIndex = idx;
+            updateImageDisplay();
+          });
+          
+          dotsContainer.appendChild(dot);
+        });
+      }
+    }
+
+    imgPrevBtn.addEventListener("click", () => {
+      if (currentImageIndex > 0) {
+        currentImageIndex--;
+        updateImageDisplay();
+      }
+    });
+
+    imgNextBtn.addEventListener("click", () => {
+      const activeData = steps[currentStep];
+      if (currentImageIndex < activeData.images.length - 1) {
+        currentImageIndex++;
+        updateImageDisplay();
+      }
+    });
+
+    prevBtn.addEventListener("click", () => {
+      if (currentStep > 0) { 
+        currentStep--; 
+        renderActiveStep(); 
+      }
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (currentStep < steps.length - 1) { 
+        currentStep++; 
+        renderActiveStep(); 
+      }
+    });
+
+    renderActiveStep();
+  </script>
+
+</body>
+</html>
