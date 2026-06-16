@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>bputnotes.in Documentation</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  /* Force sharp, geometric edges everywhere */
+  border-radius: 0px !important; 
+}
+
+body{
+  min-height:100vh;
+  font-family:'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #f1f5f9;
+  color: #0f172a;
+  display:flex;
+  flex-direction:column;
+}
+
+/* TOP FIXED NAVIGATION BAR */
+.top-nav {
+  background: #ffffff;
+  border-bottom: 2px solid #cbd5e1;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.nav-subtitle {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-left: 2px solid #e2e8f0;
+  padding-left: 12px;
+}
+
+/* MAIN CONTENT AREA */
+.page{
+  flex: 1;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:40px 16px;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* HEADER CARD */
+.header-card{
+  width:100%;
+  max-width:540px;
+  text-align:center;
+  margin-bottom:36px;
+}
+
+.header-card h1{
+  font-size:2rem;
+  font-weight:800;
+  color:#0f172a;
+  letter-spacing:-0.03em;
+  margin-bottom: 6px;
+}
+
+.header-card p{
+  color:#475569;
+  font-size:1rem;
+  font-weight: 500;
+}
+
+/* CARDS WRAPPER */
+.cards{
+  width:100%;
+  max-width:540px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+/* RETRO DOCUMENTATION LINK CARDS */
+.doc-card{
+  background:#ffffff;
+  border: 2px solid #0f172a;
+  box-shadow: 4px 4px 0px #cbd5e1;
+  text-decoration:none;
+  color:#0f172a;
+  padding:20px 24px;
+  display:flex;
+  align-items:center;
+  transition: all 0.15s ease;
+}
+
+.doc-card:hover{
+  background: #0f172a;
+  color: #ffffff;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #2563eb;
+}
+
+.left{
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+
+.icon{
+  width:44px;
+  height:44px;
+  border: 2px solid #0f172a;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: #f8fafc;
+  transition: all 0.15s ease;
+}
+
+/* Maintain distinct contextual colors inside icons during link highlights */
+.workspace{ color:#2563eb; }
+.syllabus{ color:#16a34a; }
+.notes{ color:#9333ea; }
+
+.doc-card:hover .icon {
+  background: #ffffff;
+  border-color: #ffffff;
+}
+
+.title{
+  font-size:1.1rem;
+  font-weight:700;
+  letter-spacing: -0.01em;
+}
+
+/* FOOTER CONTROL BAR PANEL */
+.bottom-panel {
+  width: 100%;
+  max-width: 540px;
+  background: #ffffff;
+  border: 2px solid #0f172a;
+  padding: 12px 16px;
+  margin-top: 40px;
+  text-align: center;
+}
+
+footer{
+  color:#475569;
+  font-size:.85rem;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+@media(max-width:640px){
+  .top-nav { padding: 0 16px; }
+  .nav-subtitle { display: none; }
+  .header-card h1{ font-size:1.65rem; }
+  .title{ font-size:1rem; }
+  .doc-card{ padding:16px 20px; }
+}
+</style>
+</head>
+
+<body>
+
+  <!-- TOP NAVIGATION BAR -->
+  <nav class="top-nav">
+    <div class="nav-brand">
+      <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
+        <rect width="64" height="64" fill="#2563eb"/>
+        <path d="M18 46V18h15c3.5 0 6.2.9 8 2.7 1.8 1.7 2.7 3.8 2.7 6.3 0 1.7-.5 3.2-1.5 4.4-.9 1.1-2 1.8-3.2 2.2 1.7.3 3 1.2 4 2.5 1 1.3 1.5 2.9 1.5 4.8 0 2.9-1 5.1-3 6.7-2 1.6-4.8 2.4-8.5 2.4H18zm6.2-17h8.3c1.9 0 3.3-.5 4.2-1.3.9-.8 1.4-1.9 1.4-3.2 0-1.4-.5-2.5-1.4-3.2-.9-.8-2.3-1.2-4.1-1.2h-8.4v8.9zm0 12h9.2c2 0 3.5-.5 4.5-1.5 1-.9 1.5-2.2 1.5-3.7s-.5-2.8-1.5-3.7c-1-1-2.5-1.4-4.5-1.4h-9.2v10.3z" fill="white"/>
+      </svg>
+      <span class="nav-title">bputnotes.in</span>
+      <span class="nav-subtitle">Documentation Hub</span>
+    </div>
+  </nav>
+
+  <!-- MAIN AREA LAYOUT CONTAINER -->
+  <main class="page">
+
+      <!-- BLOCK HEADER DATA -->
+      <section class="header-card">
+          <h1>Internal Resource Manuals</h1>
+          <p>Select target deployment path to initiate onboarding index information</p>
+      </section>
+
+      <!-- SELECTION BOX LINK SECTOR -->
+      <div class="cards">
+
+          <!-- Workspace Manual -->
+          <a href="workspace.html" class="doc-card">
+              <div class="left">
+                  <div class="icon workspace">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                  </div>
+                  <div class="title">Workspace Manual</div>
+              </div>
+          </a>
+
+          <!-- Syllabus Manual -->
+          <a href="syllabus.html" class="doc-card">
+              <div class="left">
+                  <div class="icon syllabus">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5v-15z"></path></svg>
+                  </div>
+                  <div class="title">Syllabus Manual</div>
+              </div>
+          </a>
+
+          <!-- Notes Manual -->
+          <a href="notes.html" class="doc-card">
+              <div class="left">
+                  <div class="icon notes">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                  </div>
+                  <div class="title">Notes Manual</div>
+              </div>
+          </a>
+
+      </div>
+
+      <!-- BOTTOM CONTROL STATUS BLOCK -->
+      <div class="bottom-panel">
+          <footer>
+              SYSTEM STATUS: ONLINE // bputnotes.in &copy; 2026
+          </footer>
+      </div>
+
+  </main>
+
+</body>
+</html>
